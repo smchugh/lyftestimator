@@ -13,6 +13,8 @@
 		C2820CEE1B9538E100F889A4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2820CED1B9538E100F889A4 /* Images.xcassets */; };
 		C2820CF11B9538E100F889A4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C2820CEF1B9538E100F889A4 /* LaunchScreen.xib */; };
 		C2820CFD1B9538E100F889A4 /* lyftestimatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2820CFC1B9538E100F889A4 /* lyftestimatorTests.swift */; };
+		C2820D071B9539B300F889A4 /* ApiKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2820D061B9539B300F889A4 /* ApiKeys.plist */; };
+		C2820D091B953A0F00F889A4 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2820D081B953A0F00F889A4 /* ApiKeys.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		C2820CF61B9538E100F889A4 /* lyftestimatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lyftestimatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2820CFB1B9538E100F889A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2820CFC1B9538E100F889A4 /* lyftestimatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lyftestimatorTests.swift; sourceTree = "<group>"; };
+		C2820D061B9539B300F889A4 /* ApiKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ApiKeys.plist; sourceTree = "<group>"; };
+		C2820D081B953A0F00F889A4 /* ApiKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +87,8 @@
 				C2820CED1B9538E100F889A4 /* Images.xcassets */,
 				C2820CEF1B9538E100F889A4 /* LaunchScreen.xib */,
 				C2820CE41B9538E100F889A4 /* Supporting Files */,
+				C2820D061B9539B300F889A4 /* ApiKeys.plist */,
+				C2820D081B953A0F00F889A4 /* ApiKeys.swift */,
 			);
 			path = lyftestimator;
 			sourceTree = "<group>";
@@ -193,6 +199,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2820CEC1B9538E100F889A4 /* Main.storyboard in Resources */,
+				C2820D071B9539B300F889A4 /* ApiKeys.plist in Resources */,
 				C2820CF11B9538E100F889A4 /* LaunchScreen.xib in Resources */,
 				C2820CEE1B9538E100F889A4 /* Images.xcassets in Resources */,
 			);
@@ -214,6 +221,7 @@
 			files = (
 				C2820CE91B9538E100F889A4 /* ViewController.swift in Sources */,
 				C2820CE71B9538E100F889A4 /* AppDelegate.swift in Sources */,
+				C2820D091B953A0F00F889A4 /* ApiKeys.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
