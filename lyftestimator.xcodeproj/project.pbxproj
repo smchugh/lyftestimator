@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C02E721C29300C88BAACB12A /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AC727557E2E10FEE58B1635 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C2820CE71B9538E100F889A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2820CE61B9538E100F889A4 /* AppDelegate.swift */; };
 		C2820CE91B9538E100F889A4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2820CE81B9538E100F889A4 /* ViewController.swift */; };
 		C2820CEC1B9538E100F889A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C2820CEA1B9538E100F889A4 /* Main.storyboard */; };
@@ -15,6 +16,8 @@
 		C2820CFD1B9538E100F889A4 /* lyftestimatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2820CFC1B9538E100F889A4 /* lyftestimatorTests.swift */; };
 		C2820D071B9539B300F889A4 /* ApiKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2820D061B9539B300F889A4 /* ApiKeys.plist */; };
 		C2820D091B953A0F00F889A4 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2820D081B953A0F00F889A4 /* ApiKeys.swift */; };
+		C2CFA75D1B9545FE0096BDB8 /* LyftService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CFA75C1B9545FE0096BDB8 /* LyftService.swift */; };
+		C2CFA75F1B95496D0096BDB8 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2CFA75E1B95496D0096BDB8 /* Alamofire.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +31,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6E55F4F5D92E0388B4F5FAB7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		8AC727557E2E10FEE58B1635 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EFDF866CE18CD069EDCDC83 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C2820CE11B9538E100F889A4 /* lyftestimator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lyftestimator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2820CE51B9538E100F889A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C2820CE61B9538E100F889A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -40,6 +46,8 @@
 		C2820CFC1B9538E100F889A4 /* lyftestimatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lyftestimatorTests.swift; sourceTree = "<group>"; };
 		C2820D061B9539B300F889A4 /* ApiKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ApiKeys.plist; sourceTree = "<group>"; };
 		C2820D081B953A0F00F889A4 /* ApiKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
+		C2CFA75C1B9545FE0096BDB8 /* LyftService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LyftService.swift; sourceTree = "<group>"; };
+		C2CFA75E1B95496D0096BDB8 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +55,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C02E721C29300C88BAACB12A /* Pods.framework in Frameworks */,
+				C2CFA75F1B95496D0096BDB8 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,12 +70,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A8B8EFEC02BFEB4628D3C421 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C2CFA75E1B95496D0096BDB8 /* Alamofire.framework */,
+				8AC727557E2E10FEE58B1635 /* Pods.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C2820CD81B9538E100F889A4 = {
 			isa = PBXGroup;
 			children = (
 				C2820CE31B9538E100F889A4 /* lyftestimator */,
 				C2820CF91B9538E100F889A4 /* lyftestimatorTests */,
 				C2820CE21B9538E100F889A4 /* Products */,
+				C9CB6F216FB84A8055B62E76 /* Pods */,
+				A8B8EFEC02BFEB4628D3C421 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -81,6 +102,7 @@
 		C2820CE31B9538E100F889A4 /* lyftestimator */ = {
 			isa = PBXGroup;
 			children = (
+				C2CFA75C1B9545FE0096BDB8 /* LyftService.swift */,
 				C2820CE61B9538E100F889A4 /* AppDelegate.swift */,
 				C2820CE81B9538E100F889A4 /* ViewController.swift */,
 				C2820CEA1B9538E100F889A4 /* Main.storyboard */,
@@ -118,6 +140,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		C9CB6F216FB84A8055B62E76 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6E55F4F5D92E0388B4F5FAB7 /* Pods.debug.xcconfig */,
+				8EFDF866CE18CD069EDCDC83 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -125,9 +156,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C2820D001B9538E100F889A4 /* Build configuration list for PBXNativeTarget "lyftestimator" */;
 			buildPhases = (
+				DB2EC67DE20FF3648312ABC2 /* Check Pods Manifest.lock */,
 				C2820CDD1B9538E100F889A4 /* Sources */,
 				C2820CDE1B9538E100F889A4 /* Frameworks */,
 				C2820CDF1B9538E100F889A4 /* Resources */,
+				5A40E09573FEF4873790614D /* Embed Pods Frameworks */,
+				F0A19214D9809DE667A8CE10 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -214,11 +248,60 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		5A40E09573FEF4873790614D /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DB2EC67DE20FF3648312ABC2 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F0A19214D9809DE667A8CE10 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		C2820CDD1B9538E100F889A4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2CFA75D1B9545FE0096BDB8 /* LyftService.swift in Sources */,
 				C2820CE91B9538E100F889A4 /* ViewController.swift in Sources */,
 				C2820CE71B9538E100F889A4 /* AppDelegate.swift in Sources */,
 				C2820D091B953A0F00F889A4 /* ApiKeys.swift in Sources */,
@@ -346,8 +429,13 @@
 		};
 		C2820D011B9538E100F889A4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E55F4F5D92E0388B4F5FAB7 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = lyftestimator/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -356,8 +444,13 @@
 		};
 		C2820D021B9538E100F889A4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8EFDF866CE18CD069EDCDC83 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = lyftestimator/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -417,6 +510,7 @@
 				C2820D021B9538E100F889A4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C2820D031B9538E100F889A4 /* Build configuration list for PBXNativeTarget "lyftestimatorTests" */ = {
 			isa = XCConfigurationList;
@@ -425,6 +519,7 @@
 				C2820D051B9538E100F889A4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
