@@ -18,6 +18,8 @@
 		C2820D091B953A0F00F889A4 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2820D081B953A0F00F889A4 /* ApiKeys.swift */; };
 		C2CFA75D1B9545FE0096BDB8 /* LyftService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CFA75C1B9545FE0096BDB8 /* LyftService.swift */; };
 		C2CFA75F1B95496D0096BDB8 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2CFA75E1B95496D0096BDB8 /* Alamofire.framework */; };
+		C2CFA7611B96A34D0096BDB8 /* CoreLocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CFA7601B96A34D0096BDB8 /* CoreLocationController.swift */; };
+		C2CFA7631B97B0AD0096BDB8 /* Waypoints.gpx in Resources */ = {isa = PBXBuildFile; fileRef = C2CFA7621B97B0AD0096BDB8 /* Waypoints.gpx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,8 @@
 		C2820D081B953A0F00F889A4 /* ApiKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		C2CFA75C1B9545FE0096BDB8 /* LyftService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LyftService.swift; sourceTree = "<group>"; };
 		C2CFA75E1B95496D0096BDB8 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		C2CFA7601B96A34D0096BDB8 /* CoreLocationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreLocationController.swift; sourceTree = "<group>"; };
+		C2CFA7621B97B0AD0096BDB8 /* Waypoints.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Waypoints.gpx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +115,8 @@
 				C2820CE41B9538E100F889A4 /* Supporting Files */,
 				C2820D061B9539B300F889A4 /* ApiKeys.plist */,
 				C2820D081B953A0F00F889A4 /* ApiKeys.swift */,
+				C2CFA7601B96A34D0096BDB8 /* CoreLocationController.swift */,
+				C2CFA7621B97B0AD0096BDB8 /* Waypoints.gpx */,
 			);
 			path = lyftestimator;
 			sourceTree = "<group>";
@@ -236,6 +242,7 @@
 				C2820D071B9539B300F889A4 /* ApiKeys.plist in Resources */,
 				C2820CF11B9538E100F889A4 /* LaunchScreen.xib in Resources */,
 				C2820CEE1B9538E100F889A4 /* Images.xcassets in Resources */,
+				C2CFA7631B97B0AD0096BDB8 /* Waypoints.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,6 +308,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2CFA7611B96A34D0096BDB8 /* CoreLocationController.swift in Sources */,
 				C2CFA75D1B9545FE0096BDB8 /* LyftService.swift in Sources */,
 				C2820CE91B9538E100F889A4 /* ViewController.swift in Sources */,
 				C2820CE71B9538E100F889A4 /* AppDelegate.swift in Sources */,

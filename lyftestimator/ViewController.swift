@@ -7,9 +7,13 @@
 //
 
 import UIKit
+import MapKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var mapView: MKMapView!
+    let regionRadius: CLLocationDistance = 1000
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,6 +26,12 @@ class ViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self,
             selector: "rideEstimateUpdated:",
             name: "RIDE_ESTIMATE_UPDATED",
+            object: nil
+        )
+        
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector: "locationFound:",
+            name: "LOCATION_FOUND",
             object: nil
         )
         
@@ -45,6 +55,26 @@ class ViewController: UIViewController {
         
         // var rideEstimates = rideEstimateData as? Dictionary<String, Dictionary<String, AnyObject?>>
         NSLog("ViewController: rideEstimateUpdated: rideEstimateData \(rideEstimateData)")
+    }
+    
+    func locationFound(notification:NSNotification) -> Void {
+        let locationData = notification.userInfo as! Dictionary<String, Double>
+        
+        let location = CLLocation(
+            latitude: locationData["lat"]!,
+            longitude: locationData["lng"]!
+        )
+        
+        self.centerMapOnLocation(location)
+        
+        mapView.showsUserLocation = true
+    }
+    
+    func centerMapOnLocation(location: CLLocation) {
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
+            regionRadius * 2.0, regionRadius * 2.0
+        )
+        mapView.setRegion(coordinateRegion, animated: true)
     }
 
 }

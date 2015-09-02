@@ -134,7 +134,10 @@ class LyftService : NSObject {
                         if estimates != nil {
                             for estimate in estimates! {
                                 let estimateData = estimate as! NSDictionary
-                                pickupEtaData[estimateData["ride_type"] as! String] = ["eta": (estimateData["eta_seconds"] as! Int)]
+                                let etaSeconds = estimateData["eta_seconds"] as? Int
+                                if etaSeconds != nil {
+                                    pickupEtaData[estimateData["ride_type"] as! String] = ["eta": etaSeconds!]
+                                }
                             }
                         }
                         if pickupEtaData.count > 0 {

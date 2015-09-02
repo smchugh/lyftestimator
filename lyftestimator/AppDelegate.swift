@@ -13,10 +13,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var lyftService: LyftService?
+    var coreLocationController: CoreLocationController?
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         self.lyftService = LyftService()
+        self.coreLocationController = CoreLocationController()
         
         // Override point for customization after application launch.
         return true
