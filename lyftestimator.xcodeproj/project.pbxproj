@@ -20,6 +20,7 @@
 		C2CFA75F1B95496D0096BDB8 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2CFA75E1B95496D0096BDB8 /* Alamofire.framework */; };
 		C2CFA7611B96A34D0096BDB8 /* CoreLocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CFA7601B96A34D0096BDB8 /* CoreLocationController.swift */; };
 		C2CFA7631B97B0AD0096BDB8 /* Waypoints.gpx in Resources */ = {isa = PBXBuildFile; fileRef = C2CFA7621B97B0AD0096BDB8 /* Waypoints.gpx */; };
+		C2CFA7651B97CDB40096BDB8 /* PinLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2CFA7641B97CDB40096BDB8 /* PinLocation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		C2CFA75E1B95496D0096BDB8 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		C2CFA7601B96A34D0096BDB8 /* CoreLocationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreLocationController.swift; sourceTree = "<group>"; };
 		C2CFA7621B97B0AD0096BDB8 /* Waypoints.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Waypoints.gpx; sourceTree = "<group>"; };
+		C2CFA7641B97CDB40096BDB8 /* PinLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinLocation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 				C2820D081B953A0F00F889A4 /* ApiKeys.swift */,
 				C2CFA7601B96A34D0096BDB8 /* CoreLocationController.swift */,
 				C2CFA7621B97B0AD0096BDB8 /* Waypoints.gpx */,
+				C2CFA7641B97CDB40096BDB8 /* PinLocation.swift */,
 			);
 			path = lyftestimator;
 			sourceTree = "<group>";
@@ -207,6 +210,7 @@
 				TargetAttributes = {
 					C2820CE01B9538E100F889A4 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = U39LU5Z26R;
 					};
 					C2820CF51B9538E100F889A4 = {
 						CreatedOnToolsVersion = 6.4;
@@ -308,6 +312,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2CFA7651B97CDB40096BDB8 /* PinLocation.swift in Sources */,
 				C2CFA7611B96A34D0096BDB8 /* CoreLocationController.swift in Sources */,
 				C2CFA75D1B9545FE0096BDB8 /* LyftService.swift in Sources */,
 				C2820CE91B9538E100F889A4 /* ViewController.swift in Sources */,
@@ -440,6 +445,8 @@
 			baseConfigurationReference = 6E55F4F5D92E0388B4F5FAB7 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -447,6 +454,7 @@
 				INFOPLIST_FILE = lyftestimator/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -455,6 +463,8 @@
 			baseConfigurationReference = 8EFDF866CE18CD069EDCDC83 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -462,6 +472,7 @@
 				INFOPLIST_FILE = lyftestimator/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

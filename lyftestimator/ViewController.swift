@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     let regionRadius: CLLocationDistance = 1000
@@ -34,6 +34,8 @@ class ViewController: UIViewController {
             name: "LOCATION_FOUND",
             object: nil
         )
+        
+        mapView.delegate = self
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -68,6 +70,15 @@ class ViewController: UIViewController {
         self.centerMapOnLocation(location)
         
         mapView.showsUserLocation = true
+        
+        let originPin = PinLocation(
+            title: "Test Title",
+            address: "Test Subtitle",
+            pinType: PinLocation.TYPE_ORIGIN,
+            coordinate: location.coordinate
+        )
+        
+        mapView.addAnnotation(originPin)
     }
     
     func centerMapOnLocation(location: CLLocation) {
@@ -76,6 +87,22 @@ class ViewController: UIViewController {
         )
         mapView.setRegion(coordinateRegion, animated: true)
     }
-
+    
+    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+        if let annotation = annotation as? PinLocation {
+            let identifier = annotation.pinType
+            var view: MKPinAnnotationView
+            if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier) as? MKPinAnnotationView {
+                dequeuedView.annotation = annotation
+                view = dequeuedView
+            } else {
+                view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                view.pinColor = identifier == PinLocation.TYPE_ORIGIN ? .Green : .Red
+                view.draggable = true
+            }
+            return view
+        }
+        return nil
+    }
 }
 
