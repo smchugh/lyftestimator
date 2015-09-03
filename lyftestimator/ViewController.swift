@@ -12,7 +12,9 @@ import MapKit
 class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
+    
     let regionRadius: CLLocationDistance = 1000
+    var activePin: MKAnnotationView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +38,9 @@ class ViewController: UIViewController, MKMapViewDelegate {
         )
         
         mapView.delegate = self
+
+        var tapRecognizer = UITapGestureRecognizer(target: self, action: "updatePin:")
+        mapView.addGestureRecognizer(tapRecognizer)
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -44,7 +49,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     func pickupEtaUpdated(notification:NSNotification) -> Void {
         let pickupEtaData = notification.userInfo as! Dictionary<String, AnyObject>
         
@@ -91,18 +96,28 @@ class ViewController: UIViewController, MKMapViewDelegate {
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
         if let annotation = annotation as? PinLocation {
             let identifier = annotation.pinType
-            var view: MKPinAnnotationView
+            var pinView: MKPinAnnotationView
             if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier) as? MKPinAnnotationView {
                 dequeuedView.annotation = annotation
-                view = dequeuedView
+                pinView = dequeuedView
             } else {
-                view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                view.pinColor = identifier == PinLocation.TYPE_ORIGIN ? .Green : .Red
-                view.draggable = true
+                pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                pinView.pinColor = identifier == PinLocation.TYPE_ORIGIN ? .Green : .Red
+                pinView.draggable = true
             }
-            return view
+            self.activePin = pinView
+            return pinView
         }
         return nil
     }
+    
+    func updatePin(recognizer: UITapGestureRecognizer) {
+        let touchLocation:CGPoint = recognizer.locationInView(mapView)
+        let newCoordinate = mapView.convertPoint(touchLocation, toCoordinateFromView: mapView)
+        let newAnnotation = self.activePin.annotation as! PinLocation
+        newAnnotation.coordinate = newCoordinate
+        self.activePin.annotation = newAnnotation
+    }
+    
 }
 
