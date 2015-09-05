@@ -20,9 +20,9 @@ class ViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var etaResultsView: UILabel!
     
     let regionRadius: CLLocationDistance = 1000
-    var originPin: MKAnnotationView!
-    var destinationPin: MKAnnotationView!
-    var activePin: MKAnnotationView!
+    var originPin: PinLocation!
+    var destinationPin: PinLocation!
+    var activePin: PinLocation!
     var currentUserLocation: CLLocation!
     var activeMode: String!
     
@@ -173,7 +173,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
             mapView.showsUserLocation = true
         
-            let originPin = PinLocation(
+            originPin = PinLocation(
                 title: "Test Title",
                 address: "Test Subtitle",
                 pinType: PinLocation.TYPE_ORIGIN,
@@ -205,12 +205,12 @@ class ViewController: UIViewController, MKMapViewDelegate {
                 pinView.draggable = true
             }
             if identifier == PinLocation.TYPE_ORIGIN {
-                originPin = pinView
+                originPin = pinView.annotation as! PinLocation
                 updateModes(annotation.coordinate)
             } else {
-                destinationPin = pinView
+                destinationPin = pinView.annotation as! PinLocation
             }
-            activePin = pinView
+            activePin = pinView.annotation as! PinLocation
             return pinView
         }
         return nil
@@ -219,11 +219,12 @@ class ViewController: UIViewController, MKMapViewDelegate {
     func updatePin(recognizer: UITapGestureRecognizer) {
         let touchLocation:CGPoint = recognizer.locationInView(mapView)
         let newCoordinate = mapView.convertPoint(touchLocation, toCoordinateFromView: mapView)
-        let newAnnotation = activePin.annotation as! PinLocation
-        newAnnotation.coordinate = newCoordinate
-        activePin.annotation = newAnnotation
+        activePin!.coordinate = newCoordinate
         
-        if newAnnotation.pinType == PinLocation.TYPE_ORIGIN {
+        // Force refresh of map view
+        mapView.centerCoordinate = mapView.centerCoordinate
+        
+        if activePin!.pinType == PinLocation.TYPE_ORIGIN {
             updateModes(newCoordinate)
         }
         
@@ -269,10 +270,10 @@ class ViewController: UIViewController, MKMapViewDelegate {
         }
         
         let userInfo = [
-            "originLat": originPin.annotation.coordinate.latitude.description,
-            "originLng": originPin.annotation.coordinate.longitude.description,
-            "destinationLat": destinationPin.annotation.coordinate.latitude.description,
-            "destinationLng": destinationPin.annotation.coordinate.longitude.description,
+            "originLat": originPin.coordinate.latitude.description,
+            "originLng": originPin.coordinate.longitude.description,
+            "destinationLat": destinationPin.coordinate.latitude.description,
+            "destinationLng": destinationPin.coordinate.longitude.description,
             "rideType": getSelectedModeFromTitle()
         ]
         
