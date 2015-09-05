@@ -16,6 +16,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var pinTypeView: UISegmentedControl!
     @IBOutlet weak var buttonCenterUser: UIButton!
     @IBOutlet weak var buttonEstimate: UIButton!
+    @IBOutlet weak var rideResultsView: UILabel!
+    @IBOutlet weak var etaResultsView: UILabel!
     
     let regionRadius: CLLocationDistance = 1000
     var originPin: MKAnnotationView!
@@ -24,6 +26,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
     var currentUserLocation: CLLocation!
     
     override func viewDidLoad() {
+        hideResultsViews()
+        
         super.viewDidLoad()
         
         NSNotificationCenter.defaultCenter().addObserver(self,
@@ -64,12 +68,42 @@ class ViewController: UIViewController, MKMapViewDelegate {
     func pickupEtaUpdated(notification:NSNotification) -> Void {
         let pickupEtaData = notification.userInfo as! Dictionary<String, AnyObject>
         
+        let modeData = pickupEtaData[getSelectedModeFromTitle()] as! Dictionary<String, Int>
+        
+        let etaPickup = modeData["eta"]!
+        let etaString = etaPickup > 60 ? "\(Int(etaPickup / 60)) min" : "\(etaPickup) sec"
+        
+        etaResultsView.text = " Pickup ETA: \(etaString)"
+        etaResultsView.hidden = false
+        
         // var pickupEtas = pickupEtaData as? Dictionary<String, Dictionary<String, AnyObject?>>
         NSLog("ViewController: pickupEtaUpdated: pickupEtaData \(pickupEtaData)")
     }
     
     func rideEstimateUpdated(notification:NSNotification) -> Void {
         let rideEstimateData = notification.userInfo as! Dictionary<String, AnyObject>
+        
+        let modeData = rideEstimateData[getSelectedModeFromTitle()] as! Dictionary<String, AnyObject>
+        
+        let primeTimeMultiplier = modeData["current_prime_time_percent_multiplier"] as! Int
+        let minCostCents = modeData["estimated_cost_cents_min"] as! Int
+        let maxCostCents = modeData["estimated_cost_cents_max"] as! Int
+        let distanceMiles = modeData["estimated_distance_miles"] as! Double
+        let etaDestination = modeData["estimated_duration_seconds"] as! Int
+        
+        var currancyFormatter = NSNumberFormatter()
+        currancyFormatter.numberStyle = .CurrencyStyle
+        let minCostString = currancyFormatter.stringFromNumber(minCostCents / 100)
+        let maxCostString = currancyFormatter.stringFromNumber(maxCostCents / 100)
+        
+        let distanceString = NSString(format: "%.2f miles", distanceMiles)
+        let costString = minCostString == maxCostString ? minCostString : "\(minCostString!) - \(maxCostString!)"
+        let etaString = etaDestination > 60 ? "\(Int(etaDestination / 60)) min" : "\(etaDestination) sec"
+        
+        rideResultsView.text = " Cost: \(costString!) \n Distance: \(distanceString) \n Dest. ETA: \(etaString)"
+        rideResultsView.numberOfLines = 0
+        rideResultsView.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        rideResultsView.hidden = false
         
         // var rideEstimates = rideEstimateData as? Dictionary<String, Dictionary<String, AnyObject?>>
         NSLog("ViewController: rideEstimateUpdated: rideEstimateData \(rideEstimateData)")
@@ -139,6 +173,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let newAnnotation = activePin.annotation as! PinLocation
         newAnnotation.coordinate = newCoordinate
         activePin.annotation = newAnnotation
+        
+        hideResultsViews()
     }
     
     func pinTypeChanged(segment: UISegmentedControl) {
@@ -177,6 +213,18 @@ class ViewController: UIViewController, MKMapViewDelegate {
         NSNotificationCenter.defaultCenter().postNotificationName("LOCATIONS_UPDATED",
             object: nil,
             userInfo: userInfo)
+        
+        hideResultsViews()
+    }
+    
+    func getSelectedModeFromTitle () -> String! {
+        let title = modeView.titleForSegmentAtIndex(modeView.selectedSegmentIndex)!.lowercaseString
+        return title == LyftService.RIDE_TYPE_LYFT ? title : "\(LyftService.RIDE_TYPE_LYFT)_\(title)"
+    }
+    
+    func hideResultsViews() {
+        etaResultsView.hidden = true
+        rideResultsView.hidden = true
     }
     
 }
