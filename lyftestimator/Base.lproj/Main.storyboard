@@ -38,6 +38,25 @@
                                 </segments>
                                 <color key="tintColor" red="0.74521169350000005" green="0.23976952000000001" blue="0.50040921819999995" alpha="1" colorSpace="calibratedRGB"/>
                             </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="051-k0-FVl">
+                                <rect key="frame" x="16" y="514" width="46" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="46" id="NMW-Xn-3Th"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                <state key="normal" title="Calc"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XuT-5H-hPr">
+                                <rect key="frame" x="538" y="514" width="46" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="46" id="9OC-UD-IyJ"/>
+                                </constraints>
+                                <state key="normal" title="Me">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -45,15 +64,21 @@
                             <constraint firstItem="2Qz-hh-RKC" firstAttribute="leading" secondItem="TCU-A4-90q" secondAttribute="leading" id="3V5-kt-eK7"/>
                             <constraint firstItem="gno-Wg-ycV" firstAttribute="top" secondItem="TCU-A4-90q" secondAttribute="top" id="6y9-0w-iH2"/>
                             <constraint firstItem="TCU-A4-90q" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="7vu-NO-qUg"/>
+                            <constraint firstItem="XuT-5H-hPr" firstAttribute="top" secondItem="051-k0-FVl" secondAttribute="top" id="MQw-7Y-HR2"/>
+                            <constraint firstItem="2Qz-hh-RKC" firstAttribute="top" secondItem="051-k0-FVl" secondAttribute="bottom" constant="28" id="MbW-b5-45e"/>
                             <constraint firstItem="gno-Wg-ycV" firstAttribute="trailing" secondItem="2Qz-hh-RKC" secondAttribute="trailing" id="SIZ-mZ-sOM"/>
                             <constraint firstAttribute="trailing" secondItem="TCU-A4-90q" secondAttribute="trailing" id="Tcm-02-NLv"/>
                             <constraint firstItem="gno-Wg-ycV" firstAttribute="leading" secondItem="2Qz-hh-RKC" secondAttribute="leading" id="a6A-Xk-b86"/>
                             <constraint firstItem="2Qz-hh-RKC" firstAttribute="trailing" secondItem="TCU-A4-90q" secondAttribute="trailing" id="b3S-q2-yaG"/>
+                            <constraint firstItem="051-k0-FVl" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="fhE-TL-5wI"/>
                             <constraint firstItem="TCU-A4-90q" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="npO-Yp-bt4"/>
                             <constraint firstItem="2Qz-hh-RKC" firstAttribute="bottom" secondItem="2fi-mo-0CV" secondAttribute="top" id="r4n-gh-bQv"/>
+                            <constraint firstItem="XuT-5H-hPr" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="zkR-6C-pjT"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="buttonCenterUser" destination="XuT-5H-hPr" id="gmd-Ap-dOj"/>
+                        <outlet property="buttonEstimate" destination="051-k0-FVl" id="yJs-Db-KDp"/>
                         <outlet property="mapView" destination="TCU-A4-90q" id="4cY-AX-a51"/>
                         <outlet property="modeView" destination="gno-Wg-ycV" id="9KL-95-CTu"/>
                         <outlet property="pinTypeView" destination="2Qz-hh-RKC" id="WiA-Vh-GLV"/>

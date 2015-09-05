@@ -14,11 +14,14 @@ class ViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var modeView: UISegmentedControl!
     @IBOutlet weak var pinTypeView: UISegmentedControl!
+    @IBOutlet weak var buttonCenterUser: UIButton!
+    @IBOutlet weak var buttonEstimate: UIButton!
     
     let regionRadius: CLLocationDistance = 1000
     var originPin: MKAnnotationView!
     var destinationPin: MKAnnotationView!
     var activePin: MKAnnotationView!
+    var currentUserLocation: CLLocation!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +50,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
         mapView.addGestureRecognizer(tapRecognizer)
         
         pinTypeView.addTarget(self, action: "pinTypeChanged:", forControlEvents: UIControlEvents.ValueChanged)
+        buttonCenterUser.addTarget(self, action: "centerMapOnUser:", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonEstimate.addTarget(self, action: "estimateLyft:", forControlEvents: UIControlEvents.TouchUpInside)
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -71,25 +76,31 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     func locationFound(notification:NSNotification) -> Void {
-        let locationData = notification.userInfo as! Dictionary<String, Double>
+        let locationData = notification.userInfo as! Dictionary<String, AnyObject>
         
         let location = CLLocation(
-            latitude: locationData["lat"]!,
-            longitude: locationData["lng"]!
+            latitude: locationData["lat"] as! Double,
+            longitude: locationData["lng"] as! Double
         )
         
-        self.centerMapOnLocation(location)
+        currentUserLocation = location
         
-        mapView.showsUserLocation = true
+        if locationData["firstLocation"] as! Bool {
+            
+            centerMapOnLocation(location)
         
-        let originPin = PinLocation(
-            title: "Test Title",
-            address: "Test Subtitle",
-            pinType: PinLocation.TYPE_ORIGIN,
-            coordinate: location.coordinate
-        )
+            mapView.showsUserLocation = true
         
-        mapView.addAnnotation(originPin)
+            let originPin = PinLocation(
+                title: "Test Title",
+                address: "Test Subtitle",
+                pinType: PinLocation.TYPE_ORIGIN,
+                coordinate: location.coordinate
+            )
+        
+            mapView.addAnnotation(originPin)
+
+        }
     }
     
     func centerMapOnLocation(location: CLLocation) {
@@ -112,11 +123,11 @@ class ViewController: UIViewController, MKMapViewDelegate {
                 pinView.draggable = true
             }
             if identifier == PinLocation.TYPE_ORIGIN {
-                self.originPin = pinView
+                originPin = pinView
             } else {
-                self.destinationPin = pinView
+                destinationPin = pinView
             }
-            self.activePin = pinView
+            activePin = pinView
             return pinView
         }
         return nil
@@ -125,15 +136,15 @@ class ViewController: UIViewController, MKMapViewDelegate {
     func updatePin(recognizer: UITapGestureRecognizer) {
         let touchLocation:CGPoint = recognizer.locationInView(mapView)
         let newCoordinate = mapView.convertPoint(touchLocation, toCoordinateFromView: mapView)
-        let newAnnotation = self.activePin.annotation as! PinLocation
+        let newAnnotation = activePin.annotation as! PinLocation
         newAnnotation.coordinate = newCoordinate
-        self.activePin.annotation = newAnnotation
+        activePin.annotation = newAnnotation
     }
     
     func pinTypeChanged(segment: UISegmentedControl) {
         let pinType = segment.titleForSegmentAtIndex(segment.selectedSegmentIndex)?.lowercaseString
         
-        let newActivePin = pinType == PinLocation.TYPE_ORIGIN ? self.originPin : self.destinationPin
+        let newActivePin = pinType == PinLocation.TYPE_ORIGIN ? originPin : destinationPin
         if newActivePin == nil {
             let newPin = PinLocation(
                 title: "Test Title",
@@ -144,9 +155,28 @@ class ViewController: UIViewController, MKMapViewDelegate {
             
             mapView.addAnnotation(newPin)
         } else {
-            self.activePin = newActivePin
+            activePin = newActivePin
         }
         
+    }
+    
+    func centerMapOnUser(button: UIButton) {
+        centerMapOnLocation(currentUserLocation)
+    }
+    
+    func estimateLyft(button: UIButton) {
+        
+        let userInfo = [
+            "originLat": originPin.annotation.coordinate.latitude.description,
+            "originLng": originPin.annotation.coordinate.longitude.description,
+            "destinationLat": destinationPin.annotation.coordinate.latitude.description,
+            "destinationLng": destinationPin.annotation.coordinate.longitude.description,
+            "rideType": LyftService.RIDE_TYPE_LYFT
+        ]
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("LOCATIONS_UPDATED",
+            object: nil,
+            userInfo: userInfo)
     }
     
 }

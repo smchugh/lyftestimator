@@ -49,20 +49,19 @@ class CoreLocationController : NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        if (!self.locationFound!) {
-            let location = locations.last as! CLLocation
+        let location = locations.last as! CLLocation
         
-            let userInfo = [
-                "lat": location.coordinate.latitude,
-                "lng": location.coordinate.longitude
-            ]
+        let userInfo = [
+            "lat": location.coordinate.latitude,
+            "lng": location.coordinate.longitude,
+            "firstLocation": !self.locationFound!
+        ] as Dictionary<String, AnyObject>
             
-            NSNotificationCenter.defaultCenter().postNotificationName("LOCATION_FOUND",
-                object: nil,
-                userInfo: userInfo
-            )
+        NSNotificationCenter.defaultCenter().postNotificationName("LOCATION_FOUND",
+            object: nil,
+            userInfo: userInfo
+        )
             
-            self.locationFound = true
-        }
+        self.locationFound = true
     }
 }

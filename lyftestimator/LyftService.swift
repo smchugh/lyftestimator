@@ -14,6 +14,10 @@ class LyftService : NSObject {
     let apiUrl = "https://public-api.lyft.com"
     let authWaitSeconds = 1.0
     
+    static let RIDE_TYPE_LYFT = "lyft"
+    static let RIDE_TYPE_LINE = "lyft_line"
+    static let RIDE_TYPE_PLUS = "lyft_plus"
+    
     var authenticated: Bool?
     var accessToken: String?
     var tokenExpiration: Int?
