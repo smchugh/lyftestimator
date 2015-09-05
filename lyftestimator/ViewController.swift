@@ -24,6 +24,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
     var destinationPin: MKAnnotationView!
     var activePin: MKAnnotationView!
     var currentUserLocation: CLLocation!
+    var activeMode: String!
     
     override func viewDidLoad() {
         hideResultsViews()
@@ -48,6 +49,12 @@ class ViewController: UIViewController, MKMapViewDelegate {
             object: nil
         )
         
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector: "rideTypesUpdated:",
+            name: "RIDE_TYPES_UPDATED",
+            object: nil
+        )
+        
         mapView.delegate = self
 
         var tapRecognizer = UITapGestureRecognizer(target: self, action: "updatePin:")
@@ -56,6 +63,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         pinTypeView.addTarget(self, action: "pinTypeChanged:", forControlEvents: UIControlEvents.ValueChanged)
         buttonCenterUser.addTarget(self, action: "centerMapOnUser:", forControlEvents: UIControlEvents.TouchUpInside)
         buttonEstimate.addTarget(self, action: "estimateLyft:", forControlEvents: UIControlEvents.TouchUpInside)
+        modeView.addTarget(self, action: "selectMode:", forControlEvents: UIControlEvents.ValueChanged)
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -76,12 +84,14 @@ class ViewController: UIViewController, MKMapViewDelegate {
         etaResultsView.text = " Pickup ETA: \(etaString)"
         etaResultsView.hidden = false
         
-        // var pickupEtas = pickupEtaData as? Dictionary<String, Dictionary<String, AnyObject?>>
         NSLog("ViewController: pickupEtaUpdated: pickupEtaData \(pickupEtaData)")
     }
     
     func rideEstimateUpdated(notification:NSNotification) -> Void {
         let rideEstimateData = notification.userInfo as! Dictionary<String, AnyObject>
+        
+        println(getSelectedModeFromTitle())
+        println(rideEstimateData)
         
         let modeData = rideEstimateData[getSelectedModeFromTitle()] as! Dictionary<String, AnyObject>
         
@@ -105,8 +115,46 @@ class ViewController: UIViewController, MKMapViewDelegate {
         rideResultsView.lineBreakMode = NSLineBreakMode.ByWordWrapping
         rideResultsView.hidden = false
         
-        // var rideEstimates = rideEstimateData as? Dictionary<String, Dictionary<String, AnyObject?>>
         NSLog("ViewController: rideEstimateUpdated: rideEstimateData \(rideEstimateData)")
+    }
+    
+    func rideTypesUpdated(notification:NSNotification) -> Void {
+        let rideTypesData = notification.userInfo as! Dictionary<String, AnyObject>
+        
+        let rideTypes = rideTypesData["rideTypes"] as! [String]
+        
+        modeView.removeAllSegments()
+        
+        var activeModeIndex = 0
+        for rideType in rideTypes {
+            let segmentTitle = getTitleForRideType(rideType)
+            let segmentIndex = modeView.numberOfSegments
+            if activeMode != nil && segmentTitle.lowercaseString == activeMode {
+                activeModeIndex = segmentIndex
+            }
+            modeView.insertSegmentWithTitle(getTitleForRideType(rideType), atIndex: modeView.numberOfSegments, animated: false)
+        }
+        
+        modeView.selectedSegmentIndex = activeModeIndex
+        
+        NSLog("ViewController: rideTypesUpdated: rideTypesData \(rideTypesData)")
+    }
+    
+    func getTitleForRideType(rideType: String) -> String {
+        switch rideType {
+            case LyftService.RIDE_TYPE_LYFT:
+                return "Lyft"
+            case LyftService.RIDE_TYPE_LINE:
+                return "Line"
+            case LyftService.RIDE_TYPE_PLUS:
+                return "Plus"
+            default:
+                if rideType.rangeOfString("lyft_") == nil {
+                    return rideType.capitalizedString
+                } else {
+                    return rideType.stringByReplacingOccurrencesOfString("lyft_", withString: "").capitalizedString
+                }
+        }
     }
     
     func locationFound(notification:NSNotification) -> Void {
@@ -158,6 +206,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
             }
             if identifier == PinLocation.TYPE_ORIGIN {
                 originPin = pinView
+                updateModes(annotation.coordinate)
             } else {
                 destinationPin = pinView
             }
@@ -173,6 +222,10 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let newAnnotation = activePin.annotation as! PinLocation
         newAnnotation.coordinate = newCoordinate
         activePin.annotation = newAnnotation
+        
+        if newAnnotation.pinType == PinLocation.TYPE_ORIGIN {
+            updateModes(newCoordinate)
+        }
         
         hideResultsViews()
     }
@@ -207,10 +260,24 @@ class ViewController: UIViewController, MKMapViewDelegate {
             "originLng": originPin.annotation.coordinate.longitude.description,
             "destinationLat": destinationPin.annotation.coordinate.latitude.description,
             "destinationLng": destinationPin.annotation.coordinate.longitude.description,
-            "rideType": LyftService.RIDE_TYPE_LYFT
+            "rideType": getSelectedModeFromTitle()
         ]
         
         NSNotificationCenter.defaultCenter().postNotificationName("LOCATIONS_UPDATED",
+            object: nil,
+            userInfo: userInfo)
+        
+        hideResultsViews()
+    }
+    
+    func updateModes(coordinate: CLLocationCoordinate2D) {
+        
+        let userInfo = [
+            "lat": coordinate.latitude.description,
+            "lng": coordinate.longitude.description
+        ]
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("ORIGIN_UPDATED",
             object: nil,
             userInfo: userInfo)
         
@@ -225,6 +292,12 @@ class ViewController: UIViewController, MKMapViewDelegate {
     func hideResultsViews() {
         etaResultsView.hidden = true
         rideResultsView.hidden = true
+    }
+    
+    func selectMode(segment: UISegmentedControl) {
+        activeMode = segment.titleForSegmentAtIndex(segment.selectedSegmentIndex)?.lowercaseString
+        
+        hideResultsViews()
     }
     
 }

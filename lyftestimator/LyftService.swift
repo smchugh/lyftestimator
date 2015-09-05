@@ -33,6 +33,12 @@ class LyftService : NSObject {
             name: "LOCATIONS_UPDATED",
             object: nil
         )
+        
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector: "originUpdated:",
+            name: "ORIGIN_UPDATED",
+            object: nil
+        )
     }
     
     func authenticate() -> Void {
@@ -107,6 +113,30 @@ class LyftService : NSObject {
             destinationLat:destinationLat,
             destinationLng:destinationLng,
             rideType:rideType
+        )
+        self.getAvailableRideTypes(
+            originLat,
+            originLng:originLng
+        )
+    }
+    
+    func originUpdated(notification:NSNotification) -> Void {
+        let userInfo = notification.userInfo as! Dictionary<String, String>
+        
+        NSLog("LyftService: originUpdated: Destination updated \(userInfo)")
+        
+        if !self.authenticated! {
+            NSLog("LyftService: originUpdated: Not yet authenticated, trying again")
+            self.authenticate()
+            NSTimer.scheduledTimerWithTimeInterval(authWaitSeconds,
+                target: self, selector: "originUpdated:", userInfo: userInfo, repeats: false
+            )
+            return
+        }
+        
+        self.getAvailableRideTypes(
+            userInfo["lat"]!,
+            originLng:userInfo["lng"]!
         )
     }
     
@@ -227,6 +257,55 @@ class LyftService : NSObject {
                     NSLog("LyftService: getRideEstimateData: LyftError: \(errorKey) \(errorDescription)")
                 }
             }
+    }
+    
+    func getAvailableRideTypes(originLat:String, originLng:String) -> Void {
+        let endPoint = "\(apiUrl)/v1/ridetypes"
+        
+        let headers = [
+            "Authorization": "Bearer \(self.accessToken!)",
+            "Content-Type": "application/json;charset=UTF-8"
+        ]
+        
+        var parameters = [
+            "lat": originLat,
+            "lng": originLng
+        ]
+        
+        Alamofire.request(.GET, endPoint, headers: headers, parameters: parameters)
+            .validate()
+            .responseJSON { _, response, JSON, error in
+                if response?.statusCode == 200 {
+                    let jsonResponse = JSON as! NSDictionary
+                    
+                    if jsonResponse.count > 0 && jsonResponse.valueForKey("ride_types") != nil {
+                        let rideTypesData = jsonResponse.valueForKey("ride_types") as? NSArray
+                        var availableRideTypes = [String]()
+                        if rideTypesData != nil {
+                            for rideTypeData in rideTypesData! {
+                                availableRideTypes.append(rideTypeData["ride_type"] as! String)
+                            }
+                        }
+                        if availableRideTypes.count > 0 {
+                            NSLog("LyftService: availableRideTypes: Received ride type data of \(rideTypesData) for \(parameters)")
+                            NSNotificationCenter.defaultCenter().postNotificationName("RIDE_TYPES_UPDATED",
+                                object: nil,
+                                userInfo: ["rideTypes": availableRideTypes]
+                            )
+                        } else {
+                            NSLog("LyftService: availableRideTypes: No ride types found for \(parameters)")
+                        }
+                    } else {
+                        NSLog("LyftService: availableRideTypes: Unexpected response from Lyft: \(JSON as! NSDictionary)")
+                    }
+                } else {
+                    let jsonResponse = JSON as? NSDictionary
+                    let errorKey = jsonResponse?.valueForKey("error") as? String
+                    let errorDescription = jsonResponse?.valueForKey("error_description") as? String
+                    NSLog("LyftService: availableRideTypes: ERROR: \(response?.statusCode): \(error?.description)")
+                    NSLog("LyftService: availableRideTypes: LyftError: \(errorKey) \(errorDescription)")
+                }
+        }
     }
     
 }
