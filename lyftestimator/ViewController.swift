@@ -255,6 +255,19 @@ class ViewController: UIViewController, MKMapViewDelegate {
     
     func estimateLyft(button: UIButton) {
         
+        if destinationPin == nil {
+            let newPin = PinLocation(
+                title: "Test Title",
+                address: "Test Subtitle",
+                pinType: PinLocation.TYPE_DESTINATION,
+                coordinate: mapView.centerCoordinate
+            )
+            
+            mapView.addAnnotation(newPin)
+            pinTypeView.selectedSegmentIndex = 1
+            return
+        }
+        
         let userInfo = [
             "originLat": originPin.annotation.coordinate.latitude.description,
             "originLng": originPin.annotation.coordinate.longitude.description,
