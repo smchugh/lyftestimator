@@ -12,8 +12,12 @@ import MapKit
 class ViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var modeView: UISegmentedControl!
+    @IBOutlet weak var pinTypeView: UISegmentedControl!
     
     let regionRadius: CLLocationDistance = 1000
+    var originPin: MKAnnotationView!
+    var destinationPin: MKAnnotationView!
     var activePin: MKAnnotationView!
     
     override func viewDidLoad() {
@@ -41,6 +45,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
         var tapRecognizer = UITapGestureRecognizer(target: self, action: "updatePin:")
         mapView.addGestureRecognizer(tapRecognizer)
+        
+        pinTypeView.addTarget(self, action: "pinTypeChanged:", forControlEvents: UIControlEvents.ValueChanged)
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -105,6 +111,11 @@ class ViewController: UIViewController, MKMapViewDelegate {
                 pinView.pinColor = identifier == PinLocation.TYPE_ORIGIN ? .Green : .Red
                 pinView.draggable = true
             }
+            if identifier == PinLocation.TYPE_ORIGIN {
+                self.originPin = pinView
+            } else {
+                self.destinationPin = pinView
+            }
             self.activePin = pinView
             return pinView
         }
@@ -117,6 +128,25 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let newAnnotation = self.activePin.annotation as! PinLocation
         newAnnotation.coordinate = newCoordinate
         self.activePin.annotation = newAnnotation
+    }
+    
+    func pinTypeChanged(segment: UISegmentedControl) {
+        let pinType = segment.titleForSegmentAtIndex(segment.selectedSegmentIndex)?.lowercaseString
+        
+        let newActivePin = pinType == PinLocation.TYPE_ORIGIN ? self.originPin : self.destinationPin
+        if newActivePin == nil {
+            let newPin = PinLocation(
+                title: "Test Title",
+                address: "Test Subtitle",
+                pinType: pinType!,
+                coordinate: mapView.centerCoordinate
+            )
+            
+            mapView.addAnnotation(newPin)
+        } else {
+            self.activePin = newActivePin
+        }
+        
     }
     
 }
